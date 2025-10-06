@@ -47,9 +47,6 @@ const Home = () => {
         <div className="w-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-4 ">
           {posts.map((post) => (
             <div key={post.id} className="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4 flex flex-col h-full justify-between">
-              <a href="#">
-                <Image className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" width={400} height={200} />
-              </a>
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <a href="#">
