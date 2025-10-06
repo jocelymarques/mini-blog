@@ -6,7 +6,15 @@ import { doc, getDoc } from "firebase/firestore";
 
 const ViewPostPage = () => {
   const { id } = useParams();
-  const [post, setPost] = useState<any>(null);
+  type PostType = {
+    id: string;
+    title: string;
+    subtitle?: string;
+    createdAt?: { seconds: number };
+    content?: string;
+    fullArticle?: string;
+  };
+  const [post, setPost] = useState<PostType | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,9 +23,8 @@ const ViewPostPage = () => {
       const docRef = doc(db, "posts", String(id));
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setPost({ id: docSnap.id, ...docSnap.data() });
+        setPost({ id: docSnap.id, ...docSnap.data() } as PostType);
       }
-      console.log(post);
       setLoading(false);
     };
     fetchPost();

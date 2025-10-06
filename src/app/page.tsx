@@ -1,21 +1,35 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { db } from "./firebase/config";
 import { collection, getDocs, QueryDocumentSnapshot } from "firebase/firestore";
 import { useAuthValue } from "./context/AuthContext";
 
 const Home = () => {
-  const [posts, setPosts] = useState<any[]>([]);
+  type PostType = {
+    id: string;
+    title: string;
+    content?: string;
+    createdAt?: { seconds: number };
+    uid?: string;
+  };
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuthValue();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const querySnapshot = await getDocs(collection(db, "posts"));
-      const postsList = querySnapshot.docs.map((doc: QueryDocumentSnapshot) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const postsList = querySnapshot.docs.map((doc: QueryDocumentSnapshot) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          title: data.title ?? "(Sem título)",
+          content: data.content ?? "",
+          createdAt: data.createdAt,
+          uid: data.uid,
+        };
+      });
       setPosts(postsList);
       setLoading(false);
     };
@@ -34,7 +48,7 @@ const Home = () => {
           {posts.map((post) => (
             <div key={post.id} className="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-4 flex flex-col h-full justify-between">
               <a href="#">
-                <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+                <Image className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" width={400} height={200} />
               </a>
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>

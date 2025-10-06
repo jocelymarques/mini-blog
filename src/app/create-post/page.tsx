@@ -9,7 +9,7 @@ const CreatePostPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false); // Removido pois não é usado
   const [fullArticle, setFullArticle] = useState("");
   const router = useRouter();
   const { user } = useAuthValue();
@@ -32,7 +32,7 @@ const CreatePostPage = () => {
         uid: user.uid, // salva o autor do post
       });
       router.push("/");
-    } catch (error) {
+    } catch {
       alert("Erro ao criar post");
     }
     setLoading(false);
@@ -86,7 +86,7 @@ const CreatePostPage = () => {
         >
           {loading ? "Salvando..." : "Criar Post"}
         </button>
-        {success && <span className="text-green-600">Post criado com sucesso!</span>}
+  {/* {success && <span className="text-green-600">Post criado com sucesso!</span>} */}
       </form>
     </main>
   );
