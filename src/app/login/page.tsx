@@ -10,7 +10,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const { login, error, loading } = useAuthentication();
     
-    useRedirectIfAuthenticated('/dashboard');
+    useRedirectIfAuthenticated('/');
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
